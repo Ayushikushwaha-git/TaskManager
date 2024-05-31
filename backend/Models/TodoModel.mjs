@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 
 const todoSchema=new mongoose.Schema({
-  id:{
-    type:String
-  },
+  
   email:{
     type:String,
     

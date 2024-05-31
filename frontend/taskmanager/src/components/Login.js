@@ -64,8 +64,7 @@ export default function Login() {
            <div className='grid grid-cols-1'>
            <button type="button" className="btn border-stone-900 my-2 text-lg text-stone-900 hover:bg-stone-900
            hover:text-stone-500"onClick={checkUser}>Login</button>
-           <button type="button" className="btn border-stone-900 my-2 text-lg text-stone-900 hover:bg-stone-900
-           hover:text-stone-500">Login with Google</button>
+           
 <h1 className='text-lg hover:text-stone-700'>Don't have an account? <Link to="/sign" >Create Account</Link></h1>
            </div>
         </div>

@@ -105,19 +105,22 @@ app.post('/login', async function(req,res){
   
 });
 app.get('/getData',async function(req,res){
-   const my= await Products.find({});
+   const my= await Todo.find({});
    //console.log(my)
    res.send({status:"ok",data:my});
    
 })
 app.post('/orderData',async(req,res)=>{
+   
     const { email, order_data } = req.body;
+   console.log(order_data)
     let user = await Todo.findOne({ email });
+  
  if(user==null){
     try{
        await Todo.create({
           email:req.body.email,
-          order_data:[data]
+          order_data:order_data
        }).then(()=>{
           res.json({success:true})
  
@@ -131,7 +134,7 @@ app.post('/orderData',async(req,res)=>{
     try{
        await Todo.findOneAndUpdate({email:req.body.email},
           {
-             $push:{order_data:data}
+            $push: { order_data: order_data[0] }
           }).then(()=>{
              res.json({success:true})
           })
@@ -141,7 +144,30 @@ app.post('/orderData',async(req,res)=>{
     }
    }
  })
+ app.post('/deleteData', async (req, res) => {
+   const orderId = req.body.orderid; // Assuming you send the orderId along with proId
 
+    const proId = req.body.proId;
+    
+   
+   try {
+      const order = await Todo.findById(orderId);
+      console.log(order)
+      order.order_data = order.order_data.filter(item => item.id !== proId);
+
+      // Save the updated order
+      await order.save();
+
+   
+       //const user = await User.findById(userId).select("-password") // -password will not pick password from db.
+       console.log("Deleted successfully"); 
+       res.send({status:"Ok",data:"DELETED"})
+   } catch (error) {
+       console.error(error.message)
+       res.send("Server Error")
+
+   }
+})
  app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
